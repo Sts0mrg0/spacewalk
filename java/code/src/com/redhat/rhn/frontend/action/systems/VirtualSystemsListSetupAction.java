@@ -21,6 +21,7 @@ import com.redhat.rhn.frontend.filter.TreeFilter;
 import com.redhat.rhn.frontend.listview.PageControl;
 import com.redhat.rhn.manager.system.SystemManager;
 
+import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionForm;
 
 import java.util.Iterator;
@@ -32,6 +33,8 @@ import javax.servlet.http.HttpServletRequest;
  * @version $Rev$
  */
 public class VirtualSystemsListSetupAction extends BaseSystemListSetupAction {
+
+    private static final Logger LOG = Logger.getLogger(VirtualSystemsListSetupAction.class);
 
     /**
      * Sets the status and entitlementLevel variables of each System Overview
@@ -55,8 +58,9 @@ public class VirtualSystemsListSetupAction extends BaseSystemListSetupAction {
         }
     }
 
-    protected DataResult getDataResult(User user, PageControl pc, ActionForm formIn) {
-        DataResult dr = SystemManager.virtualSystemsList(user, pc);
+    protected DataResult<VirtualSystemOverview> getDataResult(User user, PageControl pc,
+            ActionForm formIn) {
+        DataResult<VirtualSystemOverview> dr = SystemManager.virtualSystemsList(user, pc);
 
         for (int i = 0; i < dr.size(); i++) {
             VirtualSystemOverview current = (VirtualSystemOverview) dr.get(i);
@@ -71,6 +75,10 @@ public class VirtualSystemsListSetupAction extends BaseSystemListSetupAction {
             }
         }
 
+        for (VirtualSystemOverview vso : dr) {
+            LOG.error("RESULT: " + vso.getName() + "   " + vso.getId() + "  " +
+                    vso.getServerName());
+        }
         return dr;
     }
 

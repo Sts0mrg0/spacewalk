@@ -25,11 +25,15 @@ import com.redhat.rhn.frontend.html.HtmlTag;
 import com.redhat.rhn.frontend.taglibs.IconTag;
 import com.redhat.rhn.manager.system.SystemManager;
 
+import org.apache.log4j.Logger;
+
 /**
  * SystemListHelper - helper class with some list display functions
  * @version $Rev$
  */
 public class SystemListHelper {
+
+    private static final Logger LOG = Logger.getLogger(SystemListHelper.class);
 
     private SystemListHelper() {
     }
@@ -59,6 +63,8 @@ public class SystemListHelper {
         HtmlTag url = new HtmlTag("a");
         IconTag i = new IconTag();
 
+        LOG.error("SYSTEM: " + next.getName() + "  " + next.getId() + "  " +
+                next.getServerName());
         if (next.getEntitlement() == null ||
             next.getEntitlement().isEmpty()) {
             i.setType("system-unknown");
